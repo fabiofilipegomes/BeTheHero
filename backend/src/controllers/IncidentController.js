@@ -29,10 +29,14 @@ module.exports = {
     },
 
     async GetByOngId(request, response) {
+        const { page = 1 } = request.query;
         const { ong_id } = request.params;
         const incidents = await connection('incidents')
-            .where('ong_id', ong_id)
-            .select('*');
+            .join('ongs', 'ongs.id', '=', 'incidents.ong_id')
+            .limit(5)
+            .offset((page - 1) * 5)
+            .where('incidents.ong_id', ong_id)
+            .select(['incidents.*', 'ongs.name', 'ongs.email', 'ongs.whatsapp', 'ongs.city', 'ongs.uf']);
     
         return response.json(incidents);
     },
@@ -61,6 +65,7 @@ module.exports = {
             .where('id', id)
             .select('ong_id')
             .first();
+
         if(incident.ong_id != ong_id){
             return response.status(401).json({ error: "Operation not permitted" });
         }
