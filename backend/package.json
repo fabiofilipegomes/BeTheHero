@@ -21,8 +21,6 @@
   "devDependencies": {
     "nodemon": "^2.0.2",
     "jest": "^25.2.3",
-    "supertest": "^4.0.2",
-    "mem": ">=4.0.0",
-    "logkitty": ">=0.7.1"
+    "supertest": "^4.0.2"
   }
 }
